@@ -1,0 +1,117 @@
+body {
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-decoration: none!important;
+  background: #EFEFEF;
+}
+
+.left-column {
+  position: fixed;
+  height: 100%;
+  width: 224px;
+  background: #282828;
+  color: #9b9b9b;
+  font-size: 14px;
+  line-height: 1.57;
+}
+
+.main-menu {
+  font-size: 13px;
+}
+
+.main-menu a {
+  color: #9b9b9b;
+}
+
+.main-menu a:hover {
+  background: #282828!important;
+  color: #FFF;
+}
+
+.main-menu li a:focus {
+  background: #282828!important;
+}
+
+.divider-style {
+  height: 1px;
+  background-color: #9b9b9b;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.first-line {
+  color: #FFF;
+  background: #2c9ed5;
+  position: fixed;
+}
+
+.first-line a {
+  color: #FFF;
+  background: #2c9ed5;
+  border-radius: 3px;
+  padding: 0!important;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.first-line a:hover {
+  background: #2792c5!important;
+  color: #FFF;
+}
+
+.first-line a:focus {
+  background: #2792c5!important;
+}
+
+.title {
+  font-size: 20px;
+  color: #282828;
+  text-align: center;
+  font-weight: 600;
+}
+
+.title-cont {
+  padding-top: 12px;
+}
+
+.news {
+  margin-left: 224px;
+}
+
+.news-item {
+  font-size: 16px;
+  color: #252525;
+  background: #EFEFEF;
+  border-bottom: 1px solid #CCC;
+  border-right: 1px solid #CCC;
+  width: 82%;
+}
+
+.first-news {
+  margin-top: 51px;
+}
+
+.icon {
+  display: inline-block;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+.news-title {
+  display: inline-block;
+}
+
+.news-item .navbar-brand{
+  color: #252525;
+  width: 100%;
+}
+
+.news-item .navbar-brand:hover{
+  background: #f3fafd;
+  color: #00B7FF;
+}

@@ -1,0 +1,27 @@
+div.form-group
+  label(for="inputRSSType").
+    Тип RSS ленты
+  input(type="text", class="form-control js_input-add-type", id="inputRSSType", placeholder="Type", disabled)
+
+div.dropdown
+  button(class="btn btn-default dropdown-toggle js_button-selector", type="button", id="dropdownMenu1", data-toggle="dropdown", aria-haspopup="true", aria-expanded="true") Выберите тип RSS...
+  ul(class="dropdown-menu", aria-labelledby="dropdownMenu1")
+    li.js_select-add-url-type
+      a(href="#" data-type='main' class='js_select-add-url-type').
+        Главные Новости
+    li(role="separator", class="divider")
+    li.js_select-add-url-type
+      a(href="#" data-type='social').
+        Социальные сети
+    li.js_select-add-url-type
+      a(href="#" data-type='auto').
+        Автомобили
+    li.js_select-add-url-type
+      a(href="#" data-type='sport').
+        Спорт
+    li.js_select-add-url-type
+      a(href="#" data-type='builds').
+        Недвижимость
+    li.js_select-add-url-type
+      a(href="#" data-type='finanshials').
+        Экономика и финансы

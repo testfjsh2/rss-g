@@ -1,0 +1,6 @@
+mixin content(data)
+  a(class="navbar-brand", href="#{data.href}")
+    span.icon
+      img(src="#{data.icon}" class="img-responsive" alt="")
+    span.news-title.
+      #{data.title}

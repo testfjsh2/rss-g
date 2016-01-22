@@ -1,0 +1,9 @@
+include first-news
+include news
+
+mixin list(data)
+  - for(var i=0; i<data.length; i++)
+    - if(i===0)
+      mixin first-news(data[i])
+    - else 
+      mixin news(data[i])

@@ -1,0 +1,21 @@
+{
+  "name": "rss-g",
+  "description": "by Ivan",
+  "main": "bower_pakage_list.js",
+  "authors": [
+    "ivan"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

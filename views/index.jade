@@ -1,0 +1,10 @@
+extends layout
+
+include includes/news/block
+
+block content
+  div.container-all
+    include includes/menu/main
+    mixin block(data)
+  include includes/forms/add-url
+  include includes/forms/about
