@@ -20,10 +20,12 @@ var RSS = {
     self.getFilter({}, function (err, filter) {
       var filterVal = filter ? filter.val: null;
       self.getUrls(data, function (err, data) {
-        if(data.length > 0) urls = [];
-        for (var i = 0; i < data.length; i++) {
-          urls.push(data[i].url);
-        };
+        if(data && data.length > 0) {
+          urls = [];
+          for (var i = 0; i < data.length; i++) {
+            urls.push(data[i].url);
+          }
+        }
         self.getFeeds(urls, function (err, feeds) {
           if(feeds)
             var now = new Date();
