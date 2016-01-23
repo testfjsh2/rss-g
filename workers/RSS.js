@@ -6,7 +6,7 @@ var mongoose = require("mongoose");
 mongoose.connect(config.connection);
 var modelRSS = mongoose.model("RSS");
 var modelFilter = mongoose.model("Filter");
-var modelFeed = mongoose.model("Filter");
+var modelFeed = mongoose.model("Feed");
 
 var RSS = {
   // return:
