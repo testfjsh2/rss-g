@@ -106,7 +106,7 @@ var RSS = {
     }, feed, {
       upsert: true,
       new: true
-    });
+    }, function (err, data) {});
   },
   "saveUrl": function(data, fn) {
     modelRSS.findOneAndUpdate({
