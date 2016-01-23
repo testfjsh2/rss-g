@@ -42,11 +42,23 @@ router.get('/builds', function(req, res, next) {
 
 router.post('/save', function(req, res, next) {
   RSS.saveUrl({'type':req.body.type, 'url':req.body.url}, function (data) {
+    res.send(data);
   });
 });
 
 router.post('/saveFilter', function(req, res, next) {
   RSS.saveFilter({'val':req.body.val}, function (data) {
+    res.send(data);
+  });
+});
+
+router.post('/updateNews', function(req, res, next) {
+  RSS.updateNews({
+    // 'date':req.body.date,
+    // 'type': req.body.date||'main',
+    'last': req.body.last*1
+  }, function (data) {
+    res.send(data);
   });
 });
 
