@@ -66,9 +66,11 @@ var RSS = {
                   tmp = data.sort(self.sorByPublished);
                 }
                 result = result.concat(tmp);
+                result.filter = filterVal;
                 fn(result);
               });
             } else {
+              result.filter = filterVal;
               fn(result);
             }
           }
