@@ -58,7 +58,7 @@ var engine = {
     this.setBusy(true);
     var that = this;
     if($('.js_filter-storage').attr('data-active') === 'all')
-    $.post('/updateNews', {"type":location.pathname.slice(1) || "main", "last":lastId},
+    $.post('/updateNews', {"type":location.pathname.slice(1).split('#').join('') || "main", "last":lastId},
       function(data) {
         if (data.length > 0) {
           that.append(data);

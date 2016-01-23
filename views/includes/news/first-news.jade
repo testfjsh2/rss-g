@@ -1,5 +1,5 @@
 include content
 
 mixin first-news(data)
-  div.row.news-item.first-news
+  div(class=["row","news-item","first-news","post"], id="post_#{data.published}")
     mixin content(data)
