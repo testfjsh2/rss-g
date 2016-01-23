@@ -54,8 +54,7 @@ router.post('/saveFilter', function(req, res, next) {
 
 router.post('/updateNews', function(req, res, next) {
   RSS.updateNews({
-    // 'date':req.body.date,
-    // 'type': req.body.date||'main',
+    'type': req.body.type || 'main',
     'last': req.body.last*1
   }, function (data) {
     res.send(data);

@@ -7,9 +7,9 @@ var engine = {
 
   render : function(obj) {
     var xhtml = '<div class="row news-item post" id=post_'+obj.id+'>' +
-      '<a href="http://www.mk.ru/politics/2016/01/23/smi-putin-soglasilsya-izmenit-normy-o-nablyudatelyakh-na-vyborakh.html" class="navbar-brand">' +
+      '<a href="'+obj.href+'" class="navbar-brand">' +
         '<span class="icon"><img src="http://vendevor.com/img/features2/Website_Icon_Blue.png" alt="" class="img-responsive"></span>' +
-        '<span class="news-title">'+obj.content+'</span>' +
+        '<span class="news-title">'+obj.title+'</span>' +
       '</a>' +
     '</div>;'
     return xhtml;
@@ -57,9 +57,9 @@ var engine = {
 
     this.setBusy(true);
     var that = this;
-
-    $.post('/updateNews', {"count":this.count, "last":lastId},
-      function(data){
+    debugger;
+    $.post('/updateNews', {"type":"main", "last":lastId},
+      function(data) {
         if (data.length > 0) {
           that.append(data);
         }

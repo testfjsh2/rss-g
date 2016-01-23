@@ -8,6 +8,9 @@ var modelRSS = mongoose.model("RSS");
 var modelFilter = mongoose.model("Filter");
 var modelFeed = mongoose.model("Feed");
 
+var dayMS = 86400000;
+var hourMS = 3600000;
+
 var RSS = {
   // return:
   //   * "title"     - The article title (String).
@@ -31,8 +34,6 @@ var RSS = {
         self.getFeeds(urls, function (err, feeds) {
           if(feeds) {
             var now = new Date();
-            var dayMS = 86400000;
-            var hourMS = 3600000;
             for (var i = 0; i < feeds[0].length; i++) {
               var list = feeds[0][i] || [];
               for (var j = 0; j < list.length; j++) {
@@ -54,21 +55,22 @@ var RSS = {
                   if ((now - publishedDate) < dayMS) {
                     result.push(tmpFeed);
                   }
-                } else {
-                  self.getAllFeeds({type:type}, function (err, data) {
-                    if(!err && data && data.length > 0) {
-                      result = data.sort(self.sorByPublished);
-                    }
-                    fn(result);
-                  });
                 }
               }
             }
-            if (filterVal === 'day' || filterVal === 'hour') {
+            if (filterVal !== 'day' && filterVal !== 'hour') {
+              result = [];
+              self.getAllFeeds({type:type}, function (err, data) {
+                var tmp;
+                if(!err && data && data.length > 0) {
+                  tmp = data.sort(self.sorByPublished);
+                }
+                result = result.concat(tmp);
+                fn(result);
+              });
+            } else {
               fn(result);
             }
-          } else {
-            fn(result);
           }
         })
       });
@@ -97,7 +99,15 @@ var RSS = {
     async.parallel(funcs, fn);
   },
   "getAllFeeds": function(data, fn) {
-    modelFeed.find({"type": data.type}, fn);
+    var currentDate = new Date();
+    var param = {
+      type: data.type,
+      published: {
+        $gte: new Date(currentDate - dayMS),
+        $lte: currentDate
+      }
+    };
+    modelFeed.find(param).lean(true).exec(fn);
   },
   "saveFeeds": function (feed) {
     modelFeed.findOneAndUpdate({
@@ -136,16 +146,25 @@ var RSS = {
   },
   "updateNews": function (data, fn) {
     var result = [];
-    for (var i = data.last; i < (data.last + 10); i++) {
-      result.push({
-        id: i,
-        posted_at: '23.01.2016 04:53:45',
-        comments_count: 42,
-        content: 'СМИ: Путин согласился изменить нормы о наблюдателях на выборах'
-      });
-    }
-
-    fn(result);
+    var currentDate = data.last ? new Date(data.last): new Date();
+    var param = {
+      type: data.type,
+      published: {
+        $gte: new Date(currentDate - dayMS),
+        $lte: currentDate
+      }
+    };
+    modelFeed.find(param, function (err, data) {
+      for (var i = 0; i < data.length; i++) {
+        result.push({
+          id: data[i].published,
+          href: data[i].href,
+          icon: data[i].icon,
+          title: data[i].title
+        });
+      }
+      fn(result);
+    });
   },
   "sorByPublished": function(a ,b) {
     var dateA = new Date(a.published);
