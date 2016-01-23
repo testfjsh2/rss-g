@@ -5,25 +5,17 @@ var engine = {
   busy : false,
   count : 5,
 
-  render : function(obj){
-    var xhtml = '<div class="post" id=post_'+obj.id+'>';
-    if (obj.title) {
-      xhtml += '<h2>'+obj.title+'</h2>';
-    }
-    if (obj.posted_at) {
-      xhtml += '<div class="posted_at">Posted on: '+obj.posted_at+'</div>';
-    }
-    if (obj.comments_count) {
-      xhtml += '<div class="comments_count">Comments: ' + obj.comments_count + '</div>';
-    }
-    xhtml += '<div class="content">' + obj.content + '</div>';
-    xhtml += '</div>';
-
+  render : function(obj) {
+    var xhtml = '<div class="row news-item post" id=post_'+obj.id+'>' +
+      '<a href="http://www.mk.ru/politics/2016/01/23/smi-putin-soglasilsya-izmenit-normy-o-nablyudatelyakh-na-vyborakh.html" class="navbar-brand">' +
+        '<span class="icon"><img src="http://vendevor.com/img/features2/Website_Icon_Blue.png" alt="" class="img-responsive"></span>' +
+        '<span class="news-title">'+obj.content+'</span>' +
+      '</a>' +
+    '</div>;'
     return xhtml;
   },
 
   init : function(posts, target){
-  
     if (!target)
       return;
     

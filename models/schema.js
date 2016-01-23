@@ -30,7 +30,7 @@ var Feed = new Schema({
   "href": String,
   "icon": String,
   "title": String,
-  "published": String
+  "published": Date
 });
 
 Feed.index({

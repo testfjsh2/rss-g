@@ -141,7 +141,7 @@ var RSS = {
         id: i,
         posted_at: '23.01.2016 04:53:45',
         comments_count: 42,
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean accumsan aliquet lectus. Duis quam. Nullam aliquam. In eu orci sed velit ullamcorper ultrices. Proin ac lorem vitae orci fringilla rhoncus. Maecenas cursus dapibus quam. Maecenas mattis condimentum mauris. Vestibulum eu est. Quisque lorem. Suspendisse arcu lectus, sagittis at, porttitor quis, porta sed, eros. Donec bibendum magna quis mauris.'
+        content: 'СМИ: Путин согласился изменить нормы о наблюдателях на выборах'
       });
     }
 
