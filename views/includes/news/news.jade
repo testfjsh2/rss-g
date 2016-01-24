@@ -2,5 +2,5 @@ include content
 
 mixin news(data)
   div.row.news-item
-  div(class=["row","news-item","post"], id="post_#{data.published}")
+  div(class=["row","news-item","post"], id="post_#{data ? data.published: ''}")
     mixin content(data)
