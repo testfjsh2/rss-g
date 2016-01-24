@@ -1,6 +1,6 @@
 mixin content(data)
-  a(class="navbar-brand", href="#{data.href}")
+  a(class="navbar-brand", href="#{data ? data.href: ''}")
     span.icon
-      img(src="#{data.icon}" class="img-responsive" alt="")
+      img(src="#{data ? data.icon: ''}" class="img-responsive" alt="")
     span.news-title.
-      #{data.title}
+      #{data ? data.title: ''}
