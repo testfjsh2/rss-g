@@ -63,7 +63,7 @@ var RSS = {
               self.getAllFeeds({type:type}, function (err, data) {
                 var tmp;
                 if(!err && data && data.length > 0) {
-                  tmp = data.sort(self.sorByPublished);
+                  tmp = data.sort(self.sortByPublished);
                 }
                 result = result.concat(tmp);
                 result.filter = filterVal;
@@ -105,11 +105,11 @@ var RSS = {
     var param = {
       type: data.type,
       published: {
-        $gte: new Date(currentDate - dayMS),
-        $lte: currentDate
+        $gt: new Date(currentDate - dayMS),
+        $lt: currentDate
       }
     };
-    modelFeed.find(param).lean(true).exec(fn);
+    modelFeed.find(param).sort({"published": -1}).lean(true).exec(fn);
   },
   "saveFeeds": function (feed) {
     modelFeed.findOneAndUpdate({
@@ -152,11 +152,11 @@ var RSS = {
     var param = {
       type: data.type,
       published: {
-        $gte: new Date(currentDate - dayMS),
-        $lte: currentDate
+        $gt: new Date(currentDate - dayMS),
+        $lt: currentDate
       }
     };
-    modelFeed.find(param, function (err, data) {
+    modelFeed.find(param).sort({"published": -1}).lean(true).exec(function (err, data) {
       for (var i = 0; i < data.length; i++) {
         result.push({
           id: data[i].published,
@@ -168,7 +168,7 @@ var RSS = {
       fn(result);
     });
   },
-  "sorByPublished": function(a ,b) {
+  "sortByPublished": function(a ,b) {
     var dateA = new Date(a.published);
     var dateB = new Date(b.published);
     return dateA > dateB;

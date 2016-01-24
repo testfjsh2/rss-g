@@ -52,7 +52,7 @@ var engine = {
     if (this.posts && this.posts.length) {
       var lastId = this.posts[this.posts.length-1].id;
     } else {
-      var lastId = 0;
+      var lastId = new Date();
     }
 
     this.setBusy(true);

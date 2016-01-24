@@ -1,6 +1,6 @@
 include list
 mixin block(data)
-  div.col-sm-10.news
+  div#blog.col-sm-10.news
     div(class=["row", "col-sm-8", "first-line", "js_filter-storage"], data-active="#{data.filter}")
       include ../menu/top
     mixin list(data)
