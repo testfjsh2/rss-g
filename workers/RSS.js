@@ -105,7 +105,7 @@ var RSS = {
     var param = {
       type: data.type,
       published: {
-        $gt: new Date(currentDate - dayMS),
+        $gt: new Date(currentDate - (2*dayMS)),
         $lt: currentDate
       }
     };
@@ -152,7 +152,7 @@ var RSS = {
     var param = {
       type: data.type,
       published: {
-        $gt: new Date(currentDate - dayMS),
+        $gt: new Date(currentDate - (2*dayMS)),
         $lt: currentDate
       }
     };
