@@ -59,11 +59,12 @@ var RSS = {
               var list = feeds[0][i] || [];
               for (var j = 0; j < list.length; j++) {
                 var feed = list[j];
+                var tmpIconUrl = result.iconDictionary[feed.feed.source];
                 var tmpFeed = {
                   "type": type,
                   "href": feed.link,
                   "url": feed.feed.source,
-                  "icon": result.iconDictionary[feed.feed.source] || config.defaultIcon,
+                  "icon": (tmpIconUrl && tmpIconUrl !== 'null') ? tmpIconUrl: config.defaultIcon,
                   "title": feed.title,
                   "published": feed.published
                 };
@@ -209,7 +210,7 @@ var RSS = {
         result.push({
           id: data[i].published,
           href: data[i].href,
-          icon: data[i].icon,
+          icon: (data[i].icon && data[i].icon!=='null') ? data[i].icon: config.defaultIcon,
           title: data[i].title
         });
       }
