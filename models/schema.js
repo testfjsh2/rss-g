@@ -5,11 +5,22 @@ var Schema = mongoose.Schema;
 
 var SchRSS = new Schema({
   "url": String,
-  "type": String
+  "type": String,
+  "title": String,
+  "checked": String,
+  "icon": String
 });
 
 SchRSS.index({
-  "type": 1
+  "type": 1,
+  "checked": 1
+}, {
+  "sparse": true
+});
+
+SchRSS.index({
+  "type": 1,
+  "url": 1
 }, {
   "sparse": true
 });
@@ -28,6 +39,7 @@ Filter.index({
 var Feed = new Schema({
   "type": String,
   "href": String,
+  "url": String,
   "icon": String,
   "title": String,
   "published": Date
@@ -35,6 +47,21 @@ var Feed = new Schema({
 
 Feed.index({
   "type": 1
+}, {
+  "sparse": true
+});
+
+Feed.index({
+  "type": 1,
+  "url": 1
+}, {
+  "sparse": true
+});
+
+Feed.index({
+  "type": 1,
+  "url": 1,
+  "published": 1
 }, {
   "sparse": true
 });

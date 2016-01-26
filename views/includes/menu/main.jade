@@ -1,29 +1,50 @@
-div.col-sm-2.left-column
-  ul.nav.main-menu
-    li
-      a(href="/").
-        Главные новости
-    li
-      a(href="/social").
-        Соцсети
-    li.divider.divider-style
-    li
-      a(href="/finanshials").
-        Экономика и финансы
-    li
-      a(href="/auto").
-        Авто
-    li
-      a(href="/sport").
-        Спорт
-    li
-      a(href="/builds").
-        Недвижимость
-    li.divider.divider-style
-    li.js_show-add-url
-      a(href="#").
-        Добавить RSS url
-    li.divider.divider-style
-    li.js_show-about
-      a.js_show-info(href="#").
-        О проекте
+include ../inputs/url-list
+
+mixin main(data)
+  div.col-sm-2.left-column
+    ul.nav.main-menu
+      li
+        div.container
+          a(href="/").
+            Главные новости
+        - if(data.type === 'main')
+          mixin url-list(data.urls)
+      li
+        div.container
+          a(href="/social").
+            Соцсети
+        - if(data.type === "social")
+          mixin url-list(data.urls)
+      li.divider.divider-style
+      li
+        div.container
+          a(href="/finanshials").
+            Экономика и финансы
+        - if(data.type === "finanshials")
+          mixin url-list(data.urls)
+      li
+        div.container
+          a(href="/auto").
+            Авто
+        - if(data.type === "auto")
+            mixin url-list(data.urls)
+      li
+        div.container
+          a(href="/sport").
+            Спорт
+        - if(data.type === "sport")
+            mixin url-list(data.urls)
+      li
+        div.container
+          a(href="/builds").
+            Недвижимость
+        - if(data.type === "builds")
+            mixin url-list(data.urls)
+      li.divider.divider-style
+      li.js_show-add-url
+        a(href="#").
+          Добавить RSS url
+      li.divider.divider-style
+      li.js_show-about
+        a.js_show-info(href="#").
+          О проекте

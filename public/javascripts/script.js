@@ -54,12 +54,21 @@ var engine = {
     } else {
       var lastId = new Date();
     }
-
+    var checkedInputs = $('.checkbox').find('input:checked');
+    var urls = [];
+    if (checkedInputs && checkedInputs.length >0) {
+      for (var i = 0; i < checkedInputs.length; i++) {
+        urls.push(checkedInputs[i].attr('data-url'));
+      };
+    }
     this.setBusy(true);
     var that = this;
     if($('.js_filter-storage').attr('data-active') === 'all')
-    $.post('/updateNews', {"type":location.pathname.slice(1).split('#').join('') || "main", "last":lastId},
-      function(data) {
+    $.post('/updateNews', {
+      "type":location.pathname.slice(1).split('#').join('') || "main",
+      "urls": urls,
+      "last":lastId
+    }, function(data) {
         if (data.length > 0) {
           that.append(data);
         }
@@ -97,6 +106,8 @@ $(document).ready(function(){
 // show modal window for loading url to database
 $(document).on('click','.js_show-add-url',function() {
   $('.js_input-add-url').val('');
+  $('.js_input-add-title').val('');
+  $('.js_input-add-icon').val('');
   $('.js_input-add-type').val('main');
   $('.js_button-selector').text('Выберите тип RSS...');
   $('#addRSSUrlModalLabel').modal('show');
@@ -106,6 +117,8 @@ $(document).on('click','.js_show-add-url',function() {
 $(document).on('click', '.js_submit-add-url', function() {
   var data = {
     url: $('.js_input-add-url').val(),
+    title: $('.js_input-add-title').val(),
+    icon: $('.js_input-add-icon').val(),
     type: $('.js_input-add-type').val(),
   };
   $.post('/save', data, function() {
@@ -137,3 +150,15 @@ $(document).on('click', '.js_set-filter', function() {
 $(document).on('click', '.js_show-about', function() {
   $('#aboutModal').modal('show');
 });
+
+$(document).on('click', '.js_check-url', function() {
+  var $self = $(this);
+  var data = {
+    type: location.pathname.slice(1).split('#').join('') || "main",
+    state: ($self.find('input:checked').length >0) ? "checked": "unchecked",
+    url: $self.find('input').attr('data-url'),
+  }
+  $.post('/checkUrl', data, function() {
+    location.reload();
+  });
+})

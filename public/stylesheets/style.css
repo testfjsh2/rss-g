@@ -25,6 +25,7 @@ body {
 
 .main-menu a:hover {
   background: #282828!important;
+  text-decoration: none!important;
   color: #FFF;
 }
 

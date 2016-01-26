@@ -52,9 +52,20 @@ router.post('/saveFilter', function(req, res, next) {
   });
 });
 
+router.post('/checkUrl', function(req, res, next) {
+  RSS.checkUrl({
+    'url':req.body.url,
+    'state': req.body.state,
+    'type': req.body.type
+  }, function (data) {
+    res.send(data);
+  });
+});
+
 router.post('/updateNews', function(req, res, next) {
   RSS.updateNews({
     'type': req.body.type || 'main',
+    'urls': req.body.urls,
     'last': req.body.last
   }, function (data) {
     res.send(data);

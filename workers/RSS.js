@@ -19,20 +19,41 @@ var RSS = {
   //   * "icon"      - site icon
   "get": function(data, fn) {
     var self = this;
-    var result = [];
-    var urls = [config.defaultUrl];
     var type = data.type;
+    var result = {
+      news: [],
+      urls: [],
+      iconDictionary: {},
+      urlList: [],
+      type: type,
+      filter: ''
+    };
     self.getFilter({}, function (err, filter) {
       var filterVal = filter ? filter.val: null;
-      self.getUrls({type:type}, function (err, data) {
-        if(data && data.length > 0) {
-          urls = [];
-          for (var i = 0; i < data.length; i++) {
-            urls.push(data[i].url);
+      self.getUrls({type:type}, function (err, urls) {
+        var urlList = [];
+        if(urls && (urls.length > 0)) {
+          for (var i = 0; i < urls.length; i++) {
+            result.urls.push({
+              type: urls[i].type,
+              url: urls[i].url,
+              title: urls[i].title || 'Выбрать источник',
+              checked: urls[i].checked,
+              icon: urls[i].icon || config.defaultIcon
+            });
+            result.iconDictionary[urls[i].url] = urls[i].icon || config.defaultIcon;
+            if (urls[i].checked !== "unchecked") {
+              result.urlList.push(urls[i].url);
+              urlList.push(urls[i].url);
+            }
           }
         }
-        self.getFeeds(urls, function (err, feeds) {
-          if(feeds) {
+        if (urlList.length === 0) {
+          result.urlList.push(config.defaultUrl);
+          urlList.push(config.defaultUrl);
+        }
+        self.getFeeds(urlList, function (err, feeds) {
+          if(feeds && (feeds.length > 0)) {
             var now = new Date();
             for (var i = 0; i < feeds[0].length; i++) {
               var list = feeds[0][i] || [];
@@ -41,31 +62,33 @@ var RSS = {
                 var tmpFeed = {
                   "type": type,
                   "href": feed.link,
-                  "icon": "http://vendevor.com/img/features2/Website_Icon_Blue.png",
+                  "url": feed.feed.source,
+                  "icon": result.iconDictionary[feed.feed.source] || config.defaultIcon,
                   "title": feed.title,
                   "published": feed.published
                 };
                 var publishedDate = new Date(feed.published);
                 self.saveFeeds(tmpFeed);
-                if (filterVal && filterVal === 'hour') {
-                  if((now - publishedDate) < hourMS) {
-                    result.push(tmpFeed);
-                  }
-                } else if(filterVal && filterVal === 'day') {
-                  if ((now - publishedDate) < dayMS) {
-                    result.push(tmpFeed);
+                if (~result.urlList.indexOf(feed.feed.source)) {
+                  if (filterVal && filterVal === 'hour') {
+                    if((now - publishedDate) < hourMS) {
+                      result.news.push(tmpFeed);
+                    }
+                  } else if(filterVal && filterVal === 'day') {
+                    if ((now - publishedDate) < dayMS) {
+                      result.news.push(tmpFeed);
+                    }
                   }
                 }
               }
             }
             if (filterVal !== 'day' && filterVal !== 'hour') {
-              result = [];
-              self.getAllFeeds({type:type}, function (err, data) {
+              self.getAllFeeds({type:type, urlList: result.urlList}, function (err, data) {
                 var tmp;
                 if(!err && data && data.length > 0) {
                   tmp = data.sort(self.sortByPublished);
                 }
-                result = result.concat(tmp);
+                result.news = result.news.concat(tmp);
                 result.filter = filterVal;
                 fn(result);
               });
@@ -104,6 +127,9 @@ var RSS = {
     var currentDate = new Date();
     var param = {
       type: data.type,
+      url: {
+        $in: data.urlList
+      },
       published: {
         $gt: new Date(currentDate - (2*dayMS)),
         $lt: currentDate
@@ -123,6 +149,9 @@ var RSS = {
   "saveUrl": function(data, fn) {
     modelRSS.findOneAndUpdate({
       "href": data.url,
+      "checked": "checked",
+      "title": data.title,
+      "icon": date.icon,
       "type": data.type
     }, data, {
       upsert: true,
@@ -130,7 +159,22 @@ var RSS = {
     }, fn);
   },
   "getUrls": function(data, fn) {
-    modelRSS.find({"type": data.type}, fn);
+    modelRSS.find({"type": data.type}).lean(true).exec(fn);
+  },
+  "checkUrl": function (data, fn) {
+    modelRSS.findOne({
+      "type": data.type,
+      "url": data.url
+    }, function (err, url) {
+      if (data.state) {
+        url.checked = data.state;
+      }else if (url.checked === 'unchecked') {
+        url.checked = 'checked';
+      } else {
+        url.checked = 'unchecked';
+      }
+      url.save(fn);
+    });
   },
   "saveFilter": function(data, fn) {
     modelFilter.findOneAndUpdate({
@@ -149,8 +193,12 @@ var RSS = {
   "updateNews": function (data, fn) {
     var result = [];
     var currentDate = data.last ? new Date(data.last): new Date();
+    var urls = (data.urls && (data.urls.length > 0)) ? data.urls: [config.defaultUrl];
     var param = {
       type: data.type,
+      urls: {
+        $in: urls
+      },
       published: {
         $gt: new Date(currentDate - (2*dayMS)),
         $lt: currentDate

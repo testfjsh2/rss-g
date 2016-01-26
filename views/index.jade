@@ -1,10 +1,11 @@
 extends layout
 
 include includes/news/block
+include includes/menu/main
 
 block content
   div.container-all
-    include includes/menu/main
+    mixin main(data)
     mixin block(data)
   include includes/forms/add-url
   include includes/forms/about

@@ -1,0 +1,15 @@
+mixin url-list(rows)
+  - if(rows && rows.length > 0)
+    div.container
+      div.row
+        div.col-md-2
+          form(role="form")
+            - for (var i in rows)
+              div.checkbox.js_check-url
+                label
+                  - if(rows[i].checked === "unchecked")
+                    input(type="checkbox", data-url="#{rows[i].url}")
+                    | #{rows[i].title}
+                  - else
+                    input(type="checkbox", data-url="#{rows[i].url}", checked)
+                    | #{rows[i].title}
