@@ -71,7 +71,7 @@ router.post('/checkUrl', function(req, res, next) {
 router.post('/updateNews', function(req, res, next) {
   RSS.updateNews({
     'type': req.body.type || 'main',
-    'urls': req.body.urls,
+    'urls': req.body['urls[]'],
     'last': req.body.last
   }, function (data) {
     res.send(data);

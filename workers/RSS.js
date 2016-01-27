@@ -132,11 +132,11 @@ var RSS = {
         $in: data.urlList
       },
       published: {
-        $gt: new Date(currentDate - (2*dayMS)),
+        // $gt: new Date(currentDate - (2*dayMS)),
         $lt: currentDate
       }
     };
-    modelFeed.find(param).sort({"published": -1}).lean(true).exec(fn);
+    modelFeed.find(param).sort({"published": -1}).limit(config.updateLimit).lean(true).exec(fn);
   },
   "saveFeeds": function (feed) {
     modelFeed.findOneAndUpdate({
@@ -194,15 +194,15 @@ var RSS = {
     var urls = (data.urls && (data.urls.length > 0)) ? data.urls: [config.defaultUrl];
     var param = {
       type: data.type,
-      urls: {
+      url: {
         $in: urls
       },
       published: {
-        $gt: new Date(currentDate - (2*dayMS)),
+        // $gt: new Date(currentDate - (2*dayMS)),
         $lt: currentDate
       }
     };
-    modelFeed.find(param).sort({"published": -1}).lean(true).exec(function (err, data) {
+    modelFeed.find(param).sort({"published": -1}).limit(config.updateLimit).lean(true).exec(function (err, data) {
       for (var i = 0; i < data.length; i++) {
         result.push({
           id: data[i].published,
