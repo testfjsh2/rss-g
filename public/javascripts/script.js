@@ -58,7 +58,7 @@ var engine = {
     var urls = [];
     if (checkedInputs && checkedInputs.length >0) {
       for (var i = 0; i < checkedInputs.length; i++) {
-        urls.push(checkedInputs[i].attr('data-url'));
+        urls.push($(checkedInputs[i]).attr('data-url'));
       };
     }
     this.setBusy(true);

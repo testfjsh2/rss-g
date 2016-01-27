@@ -149,10 +149,7 @@ var RSS = {
   },
   "saveUrl": function(data, fn) {
     modelRSS.findOneAndUpdate({
-      "href": data.url,
-      "checked": "checked",
-      "title": data.title,
-      "icon": date.icon,
+      "url": data.url,
       "type": data.type
     }, data, {
       upsert: true,

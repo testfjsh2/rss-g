@@ -41,7 +41,13 @@ router.get('/builds', function(req, res, next) {
 });
 
 router.post('/save', function(req, res, next) {
-  RSS.saveUrl({'type':req.body.type, 'url':req.body.url}, function (data) {
+  RSS.saveUrl({
+    'type':req.body.type,
+    'url':req.body.url,
+    'title': req.body.title,
+    'checked': 'checked',
+    'icon': req.body.icon
+  }, function (data) {
     res.send(data);
   });
 });
